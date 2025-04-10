@@ -7,7 +7,6 @@ def main():
     #vista = VistaConsola()
     controller = Controller()
     controller.run()
-    print("Hola, mundo!")
 
 if __name__ == "__main__":
     main()
