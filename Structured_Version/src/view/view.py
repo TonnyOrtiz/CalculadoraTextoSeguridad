@@ -14,7 +14,7 @@ class View:
         print("1. Calculate Expression")
         print("2. Create User")
         print("3. Exit")
-        return self.get_input("Select an option: ")
+        return self.getInput("Select an option: ")
     
     def showMenuUser(self):
         print("1. Calculate Expression")
