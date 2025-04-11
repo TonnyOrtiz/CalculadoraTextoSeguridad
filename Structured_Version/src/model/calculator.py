@@ -5,8 +5,7 @@ class Calculator:
             result = Calculator.evaluateTokens(self, tokens)
             return result
         except Exception as e:
-            raise ValueError(f"Invalid expression: {expression}") from e
-    
+            raise ValueError(f"Invalid expression: {tokens}") from e
     
     def evaluateTokens(self, tokens: list) -> float:
         # Handle parentheses first
