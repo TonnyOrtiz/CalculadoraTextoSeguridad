@@ -1,0 +1,36 @@
+class UsersManager : 
+    def __init__(self):
+        self.usersArchive = "data/users.txt"
+        
+    def createUser(self, userId: str, password: str, isAdministrator: bool) -> bool:
+        try:
+            with open(self.usersArchive, "a") as file:
+                file.write(f"{userId},{password},{isAdministrator}\n")
+            return True
+        except Exception as e:
+            print(f"Error creating user: {e}")
+            return False
+    
+    def validateUser(self, userId: str, password: str) -> bool:
+        try:
+            with open(self.usersArchive, "r") as file:
+                for line in file:
+                    user, passw, isAdmin = line.strip().split(",")
+                    if user == userId and passw == password:
+                        return True
+            return False
+        except Exception as e:
+            print(f"Error validating user: {e}")
+            return False
+        
+    def isAdmin(self, userId: str) -> bool:
+        try:
+            with open(self.usersArchive, "r") as file:
+                for line in file:
+                    user, passw, isAdmin = line.strip().split(",")
+                    if user == userId:
+                        return isAdmin.strip() == "True"
+            return False
+        except Exception as e:
+            print(f"Error checking admin status: {e}")
+            return False
