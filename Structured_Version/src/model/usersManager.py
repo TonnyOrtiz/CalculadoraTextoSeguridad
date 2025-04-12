@@ -2,7 +2,7 @@ from utils.hasher import Hasher
 
 class UsersManager : 
     def __init__(self):
-        self.usersArchive = "data/users.dat"
+        self.usersArchive = "data/users.dbfile"
 
     def validateFile(self) -> bool:
         try:
