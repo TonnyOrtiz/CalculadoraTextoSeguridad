@@ -3,7 +3,6 @@ import getpass
 class View:
     
     # Error messages   
-    #  
     INVALID_INPUT = "Entrada inválida."
     USER_NOT_FOUND = "Usuario no encontrado."
     EMPTY_USERNAME = "El ID de usuario no puede estar vacío."
@@ -14,6 +13,9 @@ class View:
     USER_NOT_CREATED = "El usuario no fue creado."
     INVALID_EXPRESSION = "La expresión es inválida."
     INVALID_MENU_OPTION = "La opción del menú es inválida."
+
+    # Success messages
+    USER_CREATED = "Usuario creado exitosamente."
 
     def __init__(self):
         pass
@@ -28,10 +30,9 @@ class View:
         print("Menu de la Calculadora Peculiar")
         print("-----------------------------------")
         print("Por favor, seleccione una opción del menú:")
-        print("Puede escribir el número de la opción o la palabra marcada.")
-        print("1. [Calcular] expresión matemática con números en letras")
-        print("2. Crear nuevo [usuario]")
-        print("0. [Salir]")
+        print("1. Calcular expresión matemática con números en letras")
+        print("2. Crear nuevo usuario")
+        print("0. Salir")
         print("")
         return self.getInput("Ingrese su opción: ")
     
@@ -39,11 +40,10 @@ class View:
         print("Menu de la Calculadora Peculiar")
         print("-----------------------------------")
         print("Por favor, seleccione una opción del menú:")
-        print("Puede escribir el número de la opción o la palabra marcada.")
-        print("1. [Calcular] expresión matemática con números en letras")
-        print("0. [Salir]")
+        print("1.Calcular expresión matemática con números en letras")
+        print("0. Salir")
         print("")
-        return self.getInput("Ingrese su opción: ")
+        return self.getInput("Ingrese el número de opción: ")
     
     def getUsername(self):
         idEntered = None
@@ -63,6 +63,7 @@ class View:
         self.displayError(self.PASSWORD_MISMATCH)
         
     def getNewUsername(self):
+        idEntered = None
         while not idEntered:
             idEntered = input("Ingrese el nuevo ID de usuario: ")
             if idEntered:
@@ -74,22 +75,33 @@ class View:
         print("--------------------------------------------------------------")
         print("Por favor ingrese la expresión E que desea calcular.")
         print("")
-        print("Recuerde que los números deben estar escritos en letras.")
-        print("Recuerde usar espacios entre las palabras y los operandos.")
-        print("Puede usar los siguientes operadores: +, -, *, /")
-        print("Puede usar paréntesis para agrupar operaciones.")
-        print("Ejemplo: 'tres * (dos + uno)'")
-        print("")
         return input("E = ")
     
     # if result is None, it means that the expression is invalid
-    def printResult(self, result=None):
+    def displayResult(self, result=None):
         if result is None:
             self.displayError(self.INVALID_EXPRESSION)
             return print("--------------------------------------------------------------")
-        print( f"E = {result}")
+        print(f"\033[93mE = {result}\033[0m")
         print("----------------------------------")
     
     #Prints the message in the console in orange color
     def displayError(self, message):
-        return print(f"\033[93m{message}\033[0m")
+        return print(f"\033[91m{message}\033[0m")
+    
+    def displaySuccess(self, message):
+        #Prints the message in the console in green color
+        print(f"\033[92m{message}\033[0m")
+        print("----------------------------------")
+        
+    def help():
+        print("--------------------------------------------------------------")
+        print("Ayuda - Calculadora Peculiar")
+        print("--------------------------------------------------------------")
+        print("Esta es una calculadora que permite realizar operaciones matemáticas")
+        print("con números escritos en letras.")
+        print("- Puede usar los siguientes operadores: +, -, *, /")
+        print("- Puede usar paréntesis para agrupar operaciones. No se permiten paréntesis anidados.")
+        print("- Los números deben estar escritos en español con espacios entre cada numero y operador.")
+        print("Ejemplo: 'tres * (dos + uno)'")
+        print("--------------------------------------------------------------")

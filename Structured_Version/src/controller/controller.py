@@ -28,7 +28,7 @@ class Controller:
         try:
             result = self.parser.parseExpression(expression)
             result = self.calculator.calculateExpression(result)
-            self.view.printResult(result)
+            self.view.displayResult(result)
         except Exception as e:
             self.view.displayError(self.view.INVALID_EXPRESSION)
             
@@ -38,27 +38,31 @@ class Controller:
         isAdmin = self.view.getInput("¿Es administrador? (s/n): ").lower() == "s"
         try:
             if self.usersManager.createUser(idEntered, passwordEntered, isAdmin):
-                self.view.display("Usuario creado exitosamente.")
+                self.view.displaySuccess(self.view.USER_CREATED)
         except Exception as e:
             self.view.displayError(self.view.USER_NOT_CREATED)
 
     def run(self):
-        self.login()   
-        while self.session:
-            if self.session.isAdministrator:
-                option = self.view.showMenuAdmin()
-                if option == "1":
-                    self.calculate(self.view.getExpression)
-                if option == "2":
-                    self.createUser()
-                if option == "0":
-                    self.view.display("¡Adiós!")
-                    self.session = None
-            else:
-                option = self.view.showMenuUser()     
-                if option == "1":
-                    self.calculate(self.view.getExpression)
-                if option == "0":
-                    self.view.display("¡Adiós!")
-                    self.session = None
+        try:
+            self.login()   
+            while self.session:
+                if self.session.isAdministrator:
+                    option = self.view.showMenuAdmin()
+                    if option == "1":
+                        self.calculate(self.view.getExpression())
+                    if option == "2":
+                        self.createUser()
+                    if option == "0":
+                        self.view.display("¡Adiós!")
+                        self.session = None
+                else:
+                    option = self.view.showMenuUser()     
+                    if option == "1":
+                        self.calculate(self.view.getExpression)
+                    if option == "0":
+                        self.view.display("¡Adiós!")
+                        self.session = None
+        except KeyboardInterrupt:
+            self.view.display("\nInterrumpido por el usuario.")
+            sys.exit(0)
             
