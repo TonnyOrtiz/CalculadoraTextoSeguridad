@@ -20,8 +20,8 @@ class Controller:
 
     def login(self):
         idEntered = self.view.getUsername()
-        passwordHashed = self.view.getPassword()
-        if not self.usersManager.validateUser(idEntered, passwordHashed) :
+        password = self.view.getPassword()
+        if not self.usersManager.validateUser(idEntered, password) :
             self.view.displayError(View.INVALID_AUTH)
             self.log.addEntry("N/A" , Log.F_LOGIN, False)
         else:
@@ -81,7 +81,7 @@ class Controller:
                 else:
                     option = self.view.showMenuUser()     
                     if option == "1":
-                        self.calculate(self.view.getExpression)
+                        self.calculate(self.view.getExpression())
                     if option == "0":
                         self.view.display("¡Adiós!")
                         self.log.addEntry(self.session.userId, Log.LOGOUT, True)
