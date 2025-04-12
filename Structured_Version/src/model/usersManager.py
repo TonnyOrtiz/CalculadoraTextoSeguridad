@@ -3,6 +3,9 @@ class UsersManager :
         self.usersArchive = "data/users.dat"
         
     def createUser(self, userId: str, password: str, isAdministrator: bool) -> bool:
+        if self.isUser(userId):
+            # throw exception 
+            raise ValueError("User already exists")
         try:
             with open(self.usersArchive, "a") as file:
                 file.write(f"{userId},{password},{isAdministrator}\n")
@@ -22,7 +25,19 @@ class UsersManager :
         except Exception as e:
             print(f"Error validating user: {e}")
             return False
-        
+    
+    def isUser(self, userId: str) -> bool:
+        try:
+            with open(self.usersArchive, "r") as file:
+                for line in file:
+                    user, passw, isAdmin = line.strip().split(",")
+                    if user == userId:
+                        return True
+            return False
+        except Exception as e:
+            print(f"Error checking user existence: {e}")
+            return False
+    
     def isAdmin(self, userId: str) -> bool:
         try:
             with open(self.usersArchive, "r") as file:
