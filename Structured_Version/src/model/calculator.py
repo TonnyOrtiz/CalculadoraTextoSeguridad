@@ -1,13 +1,13 @@
 class Calculator:
-    def calculateExpression(self, tokens: list) -> float:
+    def calculateExpression(tokens: list) -> float:
         try:
             
-            result = Calculator.evaluateTokens(self, tokens)
+            result = Calculator.evaluateTokens(tokens)
             return result
         except Exception as e:
             raise ValueError(f"Invalid expression: {tokens}") from e
     
-    def evaluateTokens(self, tokens: list) -> float:
+    def evaluateTokens(tokens: list) -> float:
         # Handle parentheses first
         i = 0
         while i < len(tokens):
@@ -27,7 +27,7 @@ class Calculator:
                     raise ValueError("Mismatched parentheses")
 
                 # Evaluate the expression inside the parentheses
-                inner_result = self.evaluateTokens(tokens[open_index + 1 : close_index - 1])
+                inner_result = Calculator.evaluateTokens(tokens[open_index + 1 : close_index - 1])
 
                 # Replace the parentheses and their contents with the result
                 tokens = tokens[:open_index] + [inner_result] + tokens[close_index:]
@@ -40,9 +40,9 @@ class Calculator:
         while i < len(tokens):
             if isinstance(tokens[i], str) and tokens[i] in ("*", "/"):
                 if tokens[i] == "*":
-                    result = self.multiply(tokens[i - 1], tokens[i + 1])
+                    result = Calculator.multiply(tokens[i - 1], tokens[i + 1])
                 elif tokens[i] == "/":
-                    result = self.divide(tokens[i - 1], tokens[i + 1])
+                    result = Calculator.divide(tokens[i - 1], tokens[i + 1])
 
                 # Replace the operator and its operands with the result
                 tokens = tokens[:i - 1] + [result] + tokens[i + 2:]
@@ -55,9 +55,9 @@ class Calculator:
         while i < len(tokens):
             if isinstance(tokens[i], str) and tokens[i] in ("+", "-"):
                 if tokens[i] == "+":
-                    result = self.add(tokens[i - 1], tokens[i + 1])
+                    result = Calculator.add(tokens[i - 1], tokens[i + 1])
                 elif tokens[i] == "-":
-                    result = self.subtract(tokens[i - 1], tokens[i + 1])
+                    result = Calculator.subtract(tokens[i - 1], tokens[i + 1])
 
                 # Replace the operator and its operands with the result
                 tokens = tokens[:i - 1] + [result] + tokens[i + 2:]
@@ -69,13 +69,13 @@ class Calculator:
         return tokens[0]
         
         
-    def add(self, a: float, b: float) -> float:
+    def add( a: float, b: float) -> float:
         return a + b
-    def subtract(self, a: float, b: float) -> float:
+    def subtract( a: float, b: float) -> float:
         return a - b
-    def multiply(self, a: float, b: float) -> float:
+    def multiply(a: float, b: float) -> float:
         return a * b
-    def divide(self, a: float, b: float) -> float:
+    def divide( a: float, b: float) -> float:
         if b == 0:
             raise ValueError("Cannot divide by zero")
         return a / b

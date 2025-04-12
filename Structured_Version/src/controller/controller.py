@@ -10,8 +10,6 @@ class Controller:
     
     def __init__(self):
         self.view = View()
-        self.parser = Parser()
-        self.calculator = Calculator()
         self.usersManager = UsersManager()
         self.args = sys.argv[1:]
         self.argc = len(self.args)
@@ -30,8 +28,8 @@ class Controller:
 
     def calculate(self, expression):
         try:
-            result = self.parser.parseExpression(expression)
-            result = self.calculator.calculateExpression(result)
+            result = Parser.parseExpression(expression)
+            result = Calculator.calculateExpression(result)
             self.view.displayResult(result)
             self.log.addEntry(self.session.userId, Log.CALCULATION, True)
         except Exception as e:
