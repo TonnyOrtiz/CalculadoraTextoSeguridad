@@ -11,6 +11,8 @@ class Log :
     F_CALCULATION = "Cálculo fallido. Se produjo una excepción."
     LOGOUT = "Usuario terminó sesión correctamente"
     F_LOGOUT = "Se interrumpió la sesión del usuario"
+    KEYBOARD_INTERRUPT = "El usuario interrumpió la ejecución del programa"
+    USER_FILE = "Archivo de usuario creado correctamente"
 
     # Log types:
     SUCCESS = "CORRECTO"

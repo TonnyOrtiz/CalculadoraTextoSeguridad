@@ -3,7 +3,7 @@ from model.parser import Parser
 from model.calculator import Calculator
 from model.usersManager import UsersManager
 from view.view import View
-from controller.session import Session
+from model.session import Session
 from utils.log import Log
 
 class Controller:
@@ -39,18 +39,32 @@ class Controller:
             self.log.addEntry(self.session.userId, Log.F_CALCULATION, False)
             
     def createUser(self):
+        isAdmin = self.view.getIsAdmin()
         idEntered = self.view.getNewUsername()
-        passwordEntered = self.view.getNewPassword()
-        isAdmin = self.view.getInput("¿Es administrador? (s/n): ").lower() == "s"
         try:
-            if self.usersManager.createUser(idEntered, passwordEntered, isAdmin):
+            if self.usersManager.createUser(idEntered, self.view.getNewPassword(), isAdmin):
                 self.view.displaySuccess(View.USER_CREATED)
                 self.log.addEntry(self.session.userId, Log.CREATE+". Nuevo Usuario: "+ idEntered, True)
         except Exception as e:
             self.view.displayError(View.USER_NOT_CREATED)
             self.log.addEntry(self.session.userId, Log.F_CREATE, False)
 
+    def createFirstUser(self):
+        idEntered = self.view.getNewUsername()
+        try:
+            if self.usersManager.createUser(idEntered, self.view.getNewPassword(), True):
+                self.view.displaySuccess(View.USER_CREATED)
+                self.log.addEntry("N/A", Log.CREATE+". Primer Usuario Administrador: "+ idEntered, True)
+        except Exception as e:
+            self.view.displayError(View.USER_NOT_CREATED)
+            self.log.addEntry(self.session.userId, Log.F_CREATE, False)
+        
+
     def run(self):
+        if not self.usersManager.validateFile():
+            self.view.displayWarning(View.USER_FILE_NOT_FOUND)
+            self.log.addEntry("N/A", Log.USER_FILE, True)
+            self.createFirstUser()
         try:
             self.login()   
             while self.session:
@@ -73,7 +87,11 @@ class Controller:
                         self.log.addEntry(self.session.userId, Log.LOGOUT, True)
                         self.session = None
         except KeyboardInterrupt:
-            self.view.display("\nInterrumpido por el usuario.")
-            self.log.addEntry(self.session.userId, Log.F_LOGOUT, False)
+            View.displayWarning("\nInterrumpido por el usuario.")
+            self.log.addEntry(self.session.userId, Log.KEYBOARD_INTERRUPT, True)
             sys.exit(0)
+        except Exception as e:
+            View.displayError(f"Error: {e}")
+            self.log.addEntry(self.session.userId, Log.F_LOGOUT, False)
+            sys.exit(1)
             

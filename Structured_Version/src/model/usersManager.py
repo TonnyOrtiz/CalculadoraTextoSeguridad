@@ -1,6 +1,17 @@
+from utils.hasher import Hasher
+
 class UsersManager : 
     def __init__(self):
         self.usersArchive = "data/users.dat"
+
+    def validateFile(self) -> bool:
+        try:
+            with open(self.usersArchive, "r") as file:
+                return True
+        except FileNotFoundError:
+            with open(self.usersArchive, "w") as file:
+                pass
+            return False
         
     def createUser(self, userId: str, password: str, isAdministrator: bool) -> bool:
         if self.isUser(userId):
@@ -8,7 +19,7 @@ class UsersManager :
             raise ValueError("User already exists")
         try:
             with open(self.usersArchive, "a") as file:
-                file.write(f"{userId},{password},{isAdministrator}\n")
+                file.write(f"{userId},{Hasher.hashString(password)},{isAdministrator}\n")
             return True
         except Exception as e:
             print(f"Error creating user: {e}")
@@ -19,7 +30,7 @@ class UsersManager :
             with open(self.usersArchive, "r") as file:
                 for line in file:
                     user, passw, isAdmin = line.strip().split(",")
-                    if user == userId and passw == password:
+                    if user == userId and Hasher.validateString(password, passw):
                         return True
             return False
         except Exception as e:

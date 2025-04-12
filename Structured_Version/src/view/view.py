@@ -13,6 +13,7 @@ class View:
     USER_NOT_CREATED = "El usuario no fue creado."
     INVALID_EXPRESSION = "La expresión es inválida."
     INVALID_MENU_OPTION = "La opción del menú es inválida."
+    USER_FILE_NOT_FOUND = "El archivo de usuarios no existe, \nesta puede ser la primera vez que se ejecuta el programa. \nSe creará un nuevo archivo de usuario."
 
     # Success messages
     USER_CREATED = "Usuario creado exitosamente."
@@ -69,6 +70,17 @@ class View:
             if idEntered:
                 return idEntered
             self.view.displayError(self.view.EMPTY_USERNAME)
+
+    def getIsAdmin(self):
+        isAdmin = None
+        while not isAdmin:
+            isAdmin = input("¿Desea que el nuevo usuario sea Administrador? (s/n): ").lower()
+            if "n" in isAdmin:
+                return False
+            elif "s" in isAdmin:
+                return True
+            self.displayError(self.INVALID_INPUT)
+        return isAdmin
     
     def getExpression(self):
         #Clear the console
@@ -92,6 +104,11 @@ class View:
     def displaySuccess(self, message):
         #Prints the message in the console in green color
         print(f"\033[92m{message}\033[0m")
+        print("----------------------------------")
+
+    def displayWarning(self, message):
+        #Prints the message in the console in yellow color
+        print(f"\033[93m{message}\033[0m")
         print("----------------------------------")
         
     def help():

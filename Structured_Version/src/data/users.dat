@@ -1,8 +1,2 @@
-alessandro,admin246,True
-tonny,admin810,True
-usuario1,contrasena1,False
-notuser,password,False
-test,test,False
-test1,test,False
-test3,test,False
-test,test,False
+tonny,$2b$12$ghGek43Gv8AjDBn.7GY0/usZqAzqJsguMoMGmTIXT8PSJAELZ0h..,True
+ale,$2b$12$OTxRGgFaQUpnZXynbJ.cXudqD1OKlQ.5yiz1/W4JCFD7FMCTJoMWK,True
