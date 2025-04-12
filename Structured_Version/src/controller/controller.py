@@ -14,57 +14,51 @@ class Controller:
         self.usersManager = UsersManager()
         self.args = sys.argv[1:]
         self.argc = len(self.args)
+        self.session = None
+
+    def login(self):
+        idEntered = self.view.getUsername()
+        passwordHashed = self.view.getPassword()
+        if not self.usersManager.validateUser(idEntered, passwordHashed) :
+            self.view.displayError(self.view.INVALID_AUTH)
+        else:
+            self.session = Session(idEntered, self.usersManager.isAdmin(idEntered))
+
+    def calculate(self, expression):
+        try:
+            result = self.parser.parseExpression(expression)
+            result = self.calculator.calculateExpression(result)
+            self.view.printResult(result)
+        except Exception as e:
+            self.view.displayError(self.view.INVALID_EXPRESSION)
+            
+    def createUser(self):
+        idEntered = self.view.getNewUsername()
+        passwordEntered = self.view.getNewPassword()
+        isAdmin = self.view.getInput("¿Es administrador? (s/n): ").lower() == "s"
+        try:
+            if self.usersManager.createUser(idEntered, passwordEntered, isAdmin):
+                self.view.display("Usuario creado exitosamente.")
+        except Exception as e:
+            self.view.displayError(self.view.USER_NOT_CREATED)
 
     def run(self):
-        userId = self.view.getInput("Ingrese su nombre de usuario: ")
-        password = self.view.getInputPassword("Ingrese su contraseña: ")
-        if not self.usersManager.validateUser(userId, password) :
-            self.view.display("Usuario o contraseña incorrectos. Intente de nuevo.")
-            return
-        else:
-            self.view.display("Inicio de sesión exitoso.")
-            self.session = Session(userId, self.usersManager.isAdmin(userId))
-            
-        while True:
+        self.login()   
+        while self.session:
             if self.session.isAdministrator:
                 option = self.view.showMenuAdmin()
-                
                 if option == "1":
-                    expression = self.view.getInput("Ingrese la expresión: ")
-                    try:
-                        result = self.parser.parseExpression(expression)
-                        result = self.calculator.calculateExpression(result)
-                        self.view.display(f"Resultado: {result}")
-                    except Exception as e:
-                        self.view.display(f"Error al procesar la expresión: {e}")
-                    
+                    self.calculate(self.view.getExpression)
                 if option == "2":
-                    userId = self.view.getInput("Ingrese el ID del nuevo usuario: ")
-                    password = self.view.getInputPassword("Ingrese la contraseña del nuevo usuario: ")
-                    isAdmin = self.view.getInput("¿Es administrador? (s/n): ").lower() == "s"
-                    try:
-                        if self.usersManager.createUser(userId, password, isAdmin):
-                            self.view.display("Usuario creado exitosamente.")
-                            continue
-                    except Exception as e:
-                        self.view.display(f"Error al crear el usuario: {e}")
-                    
-                if option == "3":
+                    self.createUser()
+                if option == "0":
                     self.view.display("¡Adiós!")
-                    break
+                    self.session = None
             else:
-                option = self.view.showMenuUser()
-                
+                option = self.view.showMenuUser()     
                 if option == "1":
-                    expression = self.view.getInput("Ingrese la expresión: ")
-                    try:
-                        result = self.parser.parseExpression(expression)
-                        result = self.calculator.calculateExpression(result)
-                        self.view.display(f"Resultado: {result}")
-                    except Exception as e:
-                        self.view.display(f"Error al procesar la expresión: {e}")
-                        
-                if option == "2":
+                    self.calculate(self.view.getExpression)
+                if option == "0":
                     self.view.display("¡Adiós!")
-                    break
+                    self.session = None
             

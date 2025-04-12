@@ -1,6 +1,6 @@
 class UsersManager : 
     def __init__(self):
-        self.usersArchive = "data/users.txt"
+        self.usersArchive = "data/users.dat"
         
     def createUser(self, userId: str, password: str, isAdministrator: bool) -> bool:
         try:
