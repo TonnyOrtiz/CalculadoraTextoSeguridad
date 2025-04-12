@@ -25,3 +25,7 @@ Ejecute el siguiente comando
 ```
 python .\main.py
 ```
+
+## Primera vez que se ejecuta
+La primer vez se le pedira crear el primer usuario administrador.
+

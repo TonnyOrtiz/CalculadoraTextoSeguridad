@@ -7,8 +7,7 @@ class Hasher :
     @staticmethod
     def hashString(string: str) -> str:
         # Crear hash de la contraseña
-        password = string.encode()
-        hashed = bcrypt.hashpw(password, bcrypt.gensalt())
+        hashed = bcrypt.hashpw(string.encode(), bcrypt.gensalt())
         return hashed.decode()
     
     def validateString(string: str, hashed: str) -> bool:

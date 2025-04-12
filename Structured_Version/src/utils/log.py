@@ -19,11 +19,11 @@ class Log :
     ERROR = "FALLO"
 
     def __init__(self):
-        self.usersArchive = "data/history.log"
+        self.logArchive = "data/history.log"
         
     def addEntry(self, userId: str, entryType: str, success: bool):
         try:
-            with open(self.usersArchive, "a", encoding='utf-8') as file:
+            with open(self.logArchive, "a", encoding='utf-8') as file:
                 file.write(f"{datetime.now(timezone.utc)}   {self.SUCCESS if success else self.ERROR }   {entryType}   {userId}\n")
             return True
         except Exception as e:

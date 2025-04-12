@@ -26,6 +26,7 @@ class Parser:
         except Exception as e:
             raise ValueError(f"Invalid expression: {expression}") from e
     
+    @staticmethod
     def wordToNum(expression):
         # Preprocess the expression to add spaces around parentheses
         for p in Parser.PARENTHESES:

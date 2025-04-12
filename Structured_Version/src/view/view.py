@@ -14,20 +14,18 @@ class View:
     INVALID_EXPRESSION = "La expresión es inválida."
     INVALID_MENU_OPTION = "La opción del menú es inválida."
     USER_FILE_NOT_FOUND = "El archivo de usuarios no existe, \nesta puede ser la primera vez que se ejecuta el programa. \nSe creará un nuevo archivo de usuario."
+    INVALID_OPTION = "Opción inválida. Por favor, seleccione una opción válida."
 
     # Success messages
     USER_CREATED = "Usuario creado exitosamente."
 
-    def __init__(self):
-        pass
-
-    def display(self, message):
+    def display(message):
         print(message)
 
-    def getInput(self, prompt):
+    def getInput(prompt):
         return input(prompt)
     
-    def showMenuAdmin(self):
+    def showMenuAdmin():
         print("Menu de la Calculadora Peculiar")
         print("-----------------------------------")
         print("Por favor, seleccione una opción del menú:")
@@ -35,43 +33,43 @@ class View:
         print("2. Crear nuevo usuario")
         print("0. Salir")
         print("")
-        return self.getInput("Ingrese su opción: ")
+        return View.getInput("Ingrese su opción: ")
     
-    def showMenuUser(self):
+    def showMenuUser():
         print("Menu de la Calculadora Peculiar")
         print("-----------------------------------")
         print("Por favor, seleccione una opción del menú:")
         print("1.Calcular expresión matemática con números en letras")
         print("0. Salir")
         print("")
-        return self.getInput("Ingrese el número de opción: ")
+        return View.getInput("Ingrese el número de opción: ")
     
-    def getUsername(self):
+    def getUsername():
         idEntered = None
         while not idEntered:
             idEntered = input("Ingrese su ID de usuario: ")
             if idEntered:
                 return idEntered
-            self.view.displayError(self.view.EMPTY_USERNAME)
+            View.displayError(View.EMPTY_USERNAME)
                 
-    def getPassword(self):
+    def getPassword():
         return getpass.getpass("Ingrese su contraseña: ")
     
-    def getNewPassword(self):
+    def getNewPassword():
         temp =getpass.getpass("Ingrese la nueva contraseña: ")
         if temp == getpass.getpass("Confirme la nueva contraseña: "):
             return temp
-        self.displayError(self.PASSWORD_MISMATCH)
+        View.displayError(View.PASSWORD_MISMATCH)
         
-    def getNewUsername(self):
+    def getNewUsername():
         idEntered = None
         while not idEntered:
             idEntered = input("Ingrese el nuevo ID de usuario: ")
             if idEntered:
                 return idEntered
-            self.view.displayError(self.view.EMPTY_USERNAME)
+            View.displayError(View.EMPTY_USERNAME)
 
-    def getIsAdmin(self):
+    def getIsAdmin():
         isAdmin = None
         while not isAdmin:
             isAdmin = input("¿Desea que el nuevo usuario sea Administrador? (s/n): ").lower()
@@ -79,10 +77,10 @@ class View:
                 return False
             elif "s" in isAdmin:
                 return True
-            self.displayError(self.INVALID_INPUT)
+            View.displayError(View.INVALID_INPUT)
         return isAdmin
     
-    def getExpression(self):
+    def getExpression():
         #Clear the console
         print("--------------------------------------------------------------")
         print("Por favor ingrese la expresión E que desea calcular.")
@@ -90,23 +88,23 @@ class View:
         return input("E = ")
     
     # if result is None, it means that the expression is invalid
-    def displayResult(self, result=None):
+    def displayResult(result=None):
         if result is None:
-            self.displayError(self.INVALID_EXPRESSION)
+            View.displayError(View.INVALID_EXPRESSION)
             return print("--------------------------------------------------------------")
         print(f"\033[93mE = {result}\033[0m")
         print("----------------------------------")
     
     #Prints the message in the console in orange color
-    def displayError(self, message):
+    def displayError(message):
         return print(f"\033[91m{message}\033[0m")
     
-    def displaySuccess(self, message):
+    def displaySuccess(message):
         #Prints the message in the console in green color
         print(f"\033[92m{message}\033[0m")
         print("----------------------------------")
 
-    def displayWarning(self, message):
+    def displayWarning(message):
         #Prints the message in the console in yellow color
         print(f"\033[93m{message}\033[0m")
         print("----------------------------------")
