@@ -2,34 +2,36 @@ import os
 from utils.hasher import Hasher
 
 class UsersManager : 
-    def __init__(self):
-        self.usersArchive = "Structured_Version/data/users.dbfile"
+    USERSFILE = "data/users.dbfile"
 
-    def validateFile(self) -> bool:
+    def validateFile() -> bool:
         try:
-            with open(self.usersArchive, "r") as file:
+            with open(UsersManager.USERSFILE, "r") as file:
+                # Check if the file is empty
+                if os.stat(UsersManager.USERSFILE).st_size == 0:
+                    return False
                 return True
         except FileNotFoundError:
-            os.makedirs(os.path.dirname(self.usersArchive), exist_ok=True)
-            with open(self.usersArchive, "w") as file:
+            os.makedirs(os.path.dirname(UsersManager.USERSFILE), exist_ok=True)
+            with open(UsersManager.USERSFILE, "w") as file:
                 pass
             return False
         
-    def createUser(self, userId: str, password: str, isAdministrator: bool) -> bool:
-        if self.isUser(userId):
+    def createUser(userId: str, password: str, isAdministrator: bool) -> bool:
+        if UsersManager.isUser(userId):
             # throw exception 
             raise ValueError("User already exists")
         try:
-            with open(self.usersArchive, "a") as file:
+            with open(UsersManager.USERSFILE, "a") as file:
                 file.write(f"{userId},{Hasher.hashString(password)},{isAdministrator}\n")
             return True
         except Exception as e:
             print(f"Error creating user: {e}")
             return False
     
-    def validateUser(self, userId: str, password: str) -> bool:
+    def validateUser(userId: str, password: str) -> bool:
         try:
-            with open(self.usersArchive, "r") as file:
+            with open(UsersManager.USERSFILE, "r") as file:
                 for line in file:
                     user, passw, isAdmin = line.strip().split(",")
                     if user == userId and Hasher.validateString(password, passw):
@@ -39,9 +41,9 @@ class UsersManager :
             print(f"Error validating user: {e}")
             return False
     
-    def isUser(self, userId: str) -> bool:
+    def isUser(userId: str) -> bool:
         try:
-            with open(self.usersArchive, "r") as file:
+            with open(UsersManager.USERSFILE, "r") as file:
                 for line in file:
                     user, passw, isAdmin = line.strip().split(",")
                     if user == userId:
@@ -51,9 +53,9 @@ class UsersManager :
             print(f"Error checking user existence: {e}")
             return False
     
-    def isAdmin(self, userId: str) -> bool:
+    def isAdmin(userId: str) -> bool:
         try:
-            with open(self.usersArchive, "r") as file:
+            with open(UsersManager.USERSFILE, "r") as file:
                 for line in file:
                     user, passw, isAdmin = line.strip().split(",")
                     if user == userId:

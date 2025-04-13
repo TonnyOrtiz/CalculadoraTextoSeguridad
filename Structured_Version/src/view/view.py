@@ -15,6 +15,7 @@ class View:
     INVALID_MENU_OPTION = "La opción del menú es inválida."
     USER_FILE_NOT_FOUND = "El archivo de usuarios no existe, \nesta puede ser la primera vez que se ejecuta el programa. \nSe creará un nuevo archivo de usuario."
     INVALID_OPTION = "Opción inválida. Por favor, seleccione una opción válida."
+    FIRST_USER = "Por favor, cree el primer usuario administrador."
 
     # Success messages
     USER_CREATED = "Usuario creado exitosamente."
@@ -26,6 +27,7 @@ class View:
         return input(prompt)
     
     def showMenuAdmin():
+        print("-----------------------------------")
         print("Menu de la Calculadora Peculiar")
         print("-----------------------------------")
         print("Por favor, seleccione una opción del menú:")
@@ -36,10 +38,11 @@ class View:
         return View.getInput("Ingrese su opción: ")
     
     def showMenuUser():
+        print("-----------------------------------")
         print("Menu de la Calculadora Peculiar")
         print("-----------------------------------")
         print("Por favor, seleccione una opción del menú:")
-        print("1.Calcular expresión matemática con números en letras")
+        print("1. Calcular expresión matemática con números en letras")
         print("0. Salir")
         print("")
         return View.getInput("Ingrese el número de opción: ")

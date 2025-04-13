@@ -18,13 +18,13 @@ class Log :
     SUCCESS = "CORRECTO"
     ERROR = "FALLO"
 
-    def __init__(self):
-        self.logArchive = "Structured_Version/data/history.log"
+    # Log file:
+    LOGFILE = "data/history.log"
         
-    def addEntry(self, userId: str, entryType: str, success: bool):
+    def addEntry(userId: str, entryType: str, success: bool):
         try:
-            with open(self.logArchive, "a", encoding='utf-8') as file:
-                file.write(f"{datetime.now(timezone.utc)}   {self.SUCCESS if success else self.ERROR }   {entryType}   {userId}\n")
+            with open(Log.LOGFILE, "a", encoding='utf-8') as file:
+                file.write(f"{datetime.now(timezone.utc)}   {Log.SUCCESS if success else Log.ERROR }   {entryType}   {userId}\n")
             return True
         except Exception as e:
             return False
