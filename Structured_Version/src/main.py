@@ -1,5 +1,4 @@
-import os
-import sys
+import os, sys
 from controller.controller import Controller
 
 # Set working directory to the directory where the main script is located
