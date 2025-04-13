@@ -1,6 +1,9 @@
-import getpass, sys
+import getpass, sys, os
 from datetime import datetime, timezone
 import bcrypt 
+
+# Set working directory to the directory where the main script is located
+os.chdir(os.path.dirname(os.path.abspath(sys.argv[0])))
 
 # Constants ---------------------------------------------------
 # File paths

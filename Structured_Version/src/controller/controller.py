@@ -1,4 +1,3 @@
-import sys
 from model.parser import Parser
 from model.calculator import Calculator
 from model.usersManager import UsersManager
