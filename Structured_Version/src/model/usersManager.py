@@ -2,7 +2,7 @@ import os
 from utils.hasher import Hasher
 
 class UsersManager : 
-    USERSFILE = "data/users.dbfile"
+    USERSFILE = "Structured_Version/data/users.dbfile"
 
     def validateFile() -> bool:
         try:
