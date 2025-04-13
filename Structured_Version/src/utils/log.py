@@ -19,7 +19,7 @@ class Log :
     ERROR = "FALLO"
 
     def __init__(self):
-        self.logArchive = "data/history.log"
+        self.logArchive = "Structured_Version/data/history.log"
         
     def addEntry(self, userId: str, entryType: str, success: bool):
         try:

@@ -2,13 +2,10 @@ import getpass, sys, os
 from datetime import datetime, timezone
 import bcrypt 
 
-# Set working directory to the directory where the main script is located
-os.chdir(os.path.dirname(os.path.abspath(sys.argv[0])))
-
 # Constants ---------------------------------------------------
 # File paths
-usersArchive = "users.dbfile"
-logArchive = "history.log"
+usersArchive = "UnstructuredVersion/data/users.dbfile"
+logArchive = "UnstructuredVersion/data/filehistory.log"
 
 # Error messages   
 INVALID_INPUT = "Entrada inválida."
@@ -181,6 +178,7 @@ def validateFile() -> bool:
         with open(usersArchive, "r") as file:
             return True
     except FileNotFoundError:
+        os.makedirs(os.path.dirname(usersArchive), exist_ok=True)
         with open(usersArchive, "w") as file:
             pass
         return False

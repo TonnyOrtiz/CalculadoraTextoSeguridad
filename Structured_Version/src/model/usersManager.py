@@ -1,14 +1,16 @@
+import os
 from utils.hasher import Hasher
 
 class UsersManager : 
     def __init__(self):
-        self.usersArchive = "data/users.dbfile"
+        self.usersArchive = "Structured_Version/data/users.dbfile"
 
     def validateFile(self) -> bool:
         try:
             with open(self.usersArchive, "r") as file:
                 return True
         except FileNotFoundError:
+            os.makedirs(os.path.dirname(self.usersArchive), exist_ok=True)
             with open(self.usersArchive, "w") as file:
                 pass
             return False
