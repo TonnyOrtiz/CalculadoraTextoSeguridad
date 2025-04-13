@@ -44,9 +44,9 @@ class UsersController :
     def forcedLogout(self, userInitiated = False):
         if userInitiated:
             if self.session:
-                Log.addEntry(self.session.userId, Log.KEYBOARD_INTERRUPT, False)
+                Log.addEntry(self.session.userId, Log.KEYBOARD_INTERRUPT, True)
             else:
-                Log.addEntry("N/A", Log.KEYBOARD_INTERRUPT, False)
+                Log.addEntry("N/A", Log.KEYBOARD_INTERRUPT, True)
         else:
             if self.session:
                 Log.addEntry(self.session.userId, Log.F_LOGOUT, False)
