@@ -1,4 +1,3 @@
-import os, sys
 from controller.controller import Controller
 
 def main():
